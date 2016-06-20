@@ -1,23 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var body=require('body-parser');
+var multiparty = require('multiparty');
 var Article = require('../../../models/article/article');
+const fs = require('fs');
 
 //save article
 router.route('/saveArticle')
 .post(function(req, res) {
-  console.log("----save article---");
+console.log(req.body.image);
 
-      var article = new Article();
-      article.title = req.body.title;
-      article.image =  req.body.image;
-      article.description = req.body.description;
-
-      article.save(function(err) {
-          if (err)
-              res.send(err);
-          res.json({ message: 'Movie added!' });
-            });
 });
 
 router.route('/getAllArticles')

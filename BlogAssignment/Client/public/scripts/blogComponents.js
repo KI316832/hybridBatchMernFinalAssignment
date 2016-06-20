@@ -5,6 +5,7 @@ var IndexRoute=require('react-router').IndexRoute;
 var Route=require('react-router').Route;
 var browserHistory=require('react-router').browserHistory;
 var Link=require('react-router').Link;
+var FileInput = require('react-file-input');
 
 
 var Reflux=require('reflux');
@@ -30,7 +31,7 @@ var NavigationBar=React.createClass({
 						<li>
 							<Link to="/addarticle">Add Article</Link>
 						</li>
-            
+
 						<li className="dropdown">
 							 <a href="#" className="dropdown-toggle" data-toggle="dropdown">Dropdown<strong className="caret"></strong></a>
 							<ul className="dropdown-menu">
@@ -131,10 +132,10 @@ var Home=React.createClass({
     </div>
   </div>
   <div className="col-md-7">
-  <div className="jumbotron">
-    <h3>
+  <div className="">
+    <h3 className="text-center">
       h3. Lorem ipsum dolor sit amet.
-    </h3><img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/"/>
+    </h3><img className="img-responsive img-center image" alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/"/>
     <p>
       Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Aliquam eget sapien sapien. Curabitur in metus urna. In hac habitasse platea dictumst. Phasellus eu sem sapien, sed vestibulum velit. Nam purus nibh, lacinia non faucibus et, pharetra in dolor. Sed iaculis posuere diam ut cursus. <em>Morbi commodo sodales nisi id sodales. Proin consectetur, nisi id commodo imperdiet, metus nunc consequat lectus, id bibendum diam velit et dui.</em> Proin massa magna, vulputate nec bibendum nec, posuere nec lacus. <small>Aliquam mi erat, aliquam vel luctus eu, pharetra quis elit. Nulla euismod ultrices massa, et feugiat ipsum consequat eu.</small>
     </p>
@@ -167,6 +168,11 @@ var AddArticle=React.createClass({
 
     }
   },
+
+  handleChange: function(event) {
+    console.log('Selected file:', event.target.files[0]);
+    this.state.data.image=event.target.files[0];
+  },
   saveArticle:function(){
     alert('--saveArticle--');
 
@@ -190,27 +196,32 @@ var AddArticle=React.createClass({
 			<div className="list-group">
 				 <a href="#" className="list-group-item active">Add Article</a>
 			</div>
-       <form  id="saveArticleForm">
+       <form  id="saveArticleForm" className="form-horizontal" role="form"  method="post" >
       <div className={'form-group row'}>
           <label for="title" className={'col-sm-4 form-control-label'}>Title</label>
             <div className={'col-sm-6 title'}>
-               <input type="text" className={'form-control input-tag'} name="title" defaultValue={this.state.data.title} required="required"/>
+               <input type="text" className={'form-control input-tag'} name="title" placeholder={'Title'} defaultValue={this.state.data.title} required="required"/>
             </div>
       </div>
       <div className={'form-group row'}>
           <label for="title" className={'col-sm-4 form-control-label'}>Image </label>
             <div className={'col-sm-6 title'}>
-               <input type="text" className={'form-control input-tag'} name="image" defaultValue={this.state.data.image} required="required"/>
+            <FileInput name="image"
+                   accept=".jpg,.png,.gif"
+                   placeholder="My Image"
+                   className={'form-control input-tag'}
+                   defaultValue={this.state.data.image}
+                   onChange={this.handleChange} />
             </div>
       </div>
       <div className={'form-group row'}>
           <label for="title" className={'col-sm-4 form-control-label'}>Descrption </label>
             <div className={'col-sm-6 title'} cols={'50'} rows={'10'}>
-               <textarea type="text" className={'form-control input-tag'} name="description" defaultValue={this.state.data.description} required="required"/>
+               <textarea type="text" className={'form-control input-tag'} name="description"  placeholder={'description'} defaultValue={this.state.data.description} required="required"/>
             </div>
       </div>
       <div className={'form-group row'}>
-    <button type="button" onClick={this.saveArticle} className={'btn btn-info text-center'}>Add</button>
+    <button type="submit" onClick={this.saveArticle} className={'btn btn-info text-center'}>Add</button>
      </div>
       </form>
 		</div>
